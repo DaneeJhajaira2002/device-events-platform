@@ -39,4 +39,13 @@ export class EventsService {
 
     return savedEvent;
   }
+
+  async getRecentEvents(limit = 20) {
+    return this.eventsRepository.find({
+      order: {
+        eventTime: 'DESC',
+      },
+      take: limit,
+    });
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, Query } from '@nestjs/common';
 import { EventsService } from './events.service';
 import { CreateEventDto } from './dto/create-event.dto';
 
@@ -9,5 +9,10 @@ export class EventsController {
   @Post()
   create(@Body() dto: CreateEventDto) {
     return this.eventsService.createEvent(dto);
+  }
+
+  @Get('recent')
+  getRecent(@Query('limit') limit?: string) {
+    return this.eventsService.getRecentEvents(limit ? Number(limit) : 20);
   }
 }

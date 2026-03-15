@@ -19,4 +19,12 @@ export class AlertsService {
 
     return this.alertsRepository.save(alert);
   }
+  async getRecentAlerts(limit = 20) {
+    return this.alertsRepository.find({
+      order: {
+        createdAt: 'DESC',
+      },
+      take: limit,
+    });
+  }
 }

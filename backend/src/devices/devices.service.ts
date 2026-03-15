@@ -32,4 +32,20 @@ export class DevicesService {
       lastEvent: stats?.lastEvent ? new Date(stats.lastEvent).toISOString() : null,
     };
   }
+
+  async getActiveDevices() {
+    const rows = await this.eventsRepository
+      .createQueryBuilder('event')
+      .select('event.device_id', 'deviceId')
+      .addSelect('MAX(event.event_time)', 'lastEvent')
+      .where("event.event_time >= NOW() - INTERVAL '1 hour'")
+      .groupBy('event.device_id')
+      .orderBy('MAX(event.event_time)', 'DESC')
+      .getRawMany();
+
+    return rows.map((row) => ({
+      deviceId: row.deviceId,
+      lastEvent: row.lastEvent ? new Date(row.lastEvent).toISOString() : null,
+    }));
+  }
 }
