@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Maxillaris",
+  title: "Device Events Platform",
   description: "Technical test",
 };
 
